@@ -1,0 +1,141 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/Pusher.gd" id="1"]
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( -2.77319, -0.670212, 12.2715, 2.77319, 0.670212, -12.2715, 0, 0, 0.0113855, -94.9668, 4.75095, -3.89587, 94.9668, -4.75095, 3.89587, 107.88, 38.9193, -148.221, -13.0878, 12.5406, -70.21, 13.0878, -12.5406, 70.21, 198.153, 0.0160522, 11.5832, 62.1204, 0.010849, -2.8239, -62.1204, -0.010849, 2.8239, 107.635, -25.0502, 129.953, -16.1675, -12.6215, 57.4945, 16.1675, 12.6215, -57.4945, 0, 0, 0.0113855 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0.309804, 0.619608, 0.643137, 1 )
+
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
+albedo_color = Color( 0.0431373, 0.968627, 0.752941, 0.176471 )
+
+[sub_resource type="PhysicsMaterial" id=9]
+friction = 0.0
+bounce = 1.0
+absorbent = true
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0.533333, 0.0823529, 0.0823529, 1 )
+
+[sub_resource type="SphereShape" id=7]
+margin = 0.001
+radius = 0.9
+
+[sub_resource type="CapsuleShape" id=10]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.97977, 0.195183, 0.0442093, -0.164905, 0.662223, 0.730936, 0.11339, -0.723439, 0.681013, 112.331, 95.1111, 150.507 )
+far = 887.6
+
+[node name="Track" type="Spatial" parent="."]
+
+[node name="Path" type="Path" parent="Track"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.800949, -6.84224, 0.896675 )
+curve = SubResource( 1 )
+
+[node name="Road" type="CSGPolygon" parent="Track/Path"]
+invert_faces = true
+polygon = PoolVector2Array( 0, 0.1, 0, 0.1, 1, 0.1, 1, 0.1 )
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+material = SubResource( 2 )
+
+[node name="CollisionShape" type="CSGPolygon" parent="Track/Path"]
+use_collision = true
+polygon = PoolVector2Array( 4, -4, -4, -4, -4, 4, 4, 4, 4, -4, 2, -1, -2, -1, -2, 1, 2, 1, 2, -1 )
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+smooth_faces = true
+material = SubResource( 8 )
+
+[node name="RigidBody" type="RigidBody" parent="."]
+transform = Transform( 0.986395, 0, -0.164393, -0.0291991, 0.9841, -0.175201, 0.16178, 0.177617, 0.970711, 2.31141, -12.9569, -2.29184 )
+visible = false
+input_ray_pickable = false
+mass = 8088.55
+physics_material_override = SubResource( 9 )
+linear_damp = 0.0
+angular_damp = 0.0
+script = ExtResource( 1 )
+push = true
+f = -1e+06
+
+[node name="CSGBox" type="CSGBox" parent="RigidBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2.14884, 0, 0, 0 )
+height = 0.7
+material = SubResource( 5 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="RigidBody"]
+transform = Transform( -4.47035e-08, 0, 1, 0, 1, 0, -1, 0, -4.47035e-08, 1, 0, 2 )
+shape = SubResource( 7 )
+
+[node name="CollisionShape3" type="CollisionShape" parent="RigidBody"]
+transform = Transform( -4.47035e-08, 0, -1, 0, 1, 0, 1, 0, -4.47035e-08, -1, 0, 2 )
+shape = SubResource( 7 )
+
+[node name="CollisionShape4" type="CollisionShape" parent="RigidBody"]
+transform = Transform( -4.47035e-08, 0, 1, 0, 1, 0, -1, 0, -4.47035e-08, 1, 0, -2 )
+shape = SubResource( 7 )
+
+[node name="CollisionShape5" type="CollisionShape" parent="RigidBody"]
+transform = Transform( -4.47035e-08, 0, -1, 0, 1, 0, 1, 0, -4.47035e-08, -1, 0, -2 )
+shape = SubResource( 7 )
+
+[node name="Camera2" type="Camera" parent="."]
+
+[node name="VehicleBody" type="VehicleBody" parent="."]
+transform = Transform( 0.986395, 9.42312e-06, -0.164393, -0.0292074, 0.9841, -0.175195, 0.161777, 0.177613, 0.970712, 2.311, -12.957, -2.292 )
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="VehicleBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0 )
+shape = SubResource( 10 )
+
+[node name="CSGBox" type="CSGBox" parent="VehicleBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0 )
+height = 0.7
+material = SubResource( 5 )
+
+[node name="VehicleWheel" type="VehicleWheel" parent="VehicleBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2 )
+
+[node name="VehicleWheel2" type="VehicleWheel" parent="VehicleBody"]
+transform = Transform( 1, 1.86265e-09, 0, -1.86265e-09, 1, 0, 0, -1.49012e-08, 1, -1, 0, 2 )
+
+[node name="VehicleWheel3" type="VehicleWheel" parent="VehicleBody"]
+transform = Transform( 1, 1.86265e-09, 0, -5.58794e-09, 1, 0, -1.49012e-08, -2.98023e-08, 1, 1, 0, -2 )
+
+[node name="VehicleWheel4" type="VehicleWheel" parent="VehicleBody"]
+transform = Transform( 1, 3.72529e-09, 0, -7.45058e-09, 1, 0, 0, -4.47035e-08, 1, -1, 0, -2 )
+
+[node name="VehicleWheel5" type="VehicleWheel" parent="VehicleBody"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1, 0, 0 )
+wheel_radius = 1.0
+
+[node name="VehicleWheel6" type="VehicleWheel" parent="VehicleBody"]
+transform = Transform( -4.47035e-08, 1, 0, -1, -4.65661e-08, 0, 1.49012e-08, -1.49012e-08, 1, -1, -9.53674e-07, 1.19209e-07 )
+wheel_radius = 1.0

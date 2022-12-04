@@ -1,0 +1,248 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://scripts/Pusher.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/MatchRigidBody.gd" id="2"]
+[ext_resource type="Material" path="res://assets/materials/purplish.tres" id="3"]
+
+[sub_resource type="PhysicsMaterial" id=8]
+friction = 0.0
+bounce = 0.25
+
+[sub_resource type="SphereShape" id=12]
+margin = 0.01
+radius = 9.5
+
+[sub_resource type="SphereMesh" id=17]
+radius = 9.0
+height = 18.0
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0.984314, 0.0156863, 0.0156863, 1 )
+
+[sub_resource type="PlaneMesh" id=9]
+
+[sub_resource type="OpenSimplexNoise" id=10]
+
+[sub_resource type="NoiseTexture" id=18]
+noise = SubResource( 10 )
+
+[sub_resource type="SpatialMaterial" id=11]
+albedo_color = Color( 0.223529, 0.333333, 0.219608, 1 )
+albedo_texture = SubResource( 18 )
+
+[sub_resource type="Curve3D" id=13]
+_data = {
+"points": PoolVector3Array( -135.935, -5.41263, 94.8941, 135.935, 5.41263, -94.8941, -180.759, -0.44622, -17.6326, -3.53329, 21.795, -194.509, 3.53329, -21.795, 194.509, 269.656, -1.94016, 105.503, 132.126, 6.87555, -2.6535, -132.126, -6.87555, 2.6535, 0.93295, -27.2888, 355.169, -237.055, -3.01476, 165.652, 237.055, 3.01476, -165.652, -180.77, -0.4533, -17.6456 ),
+"tilts": PoolRealArray( 0, 0, 0, 0 )
+}
+
+[sub_resource type="OpenSimplexNoise" id=14]
+
+[sub_resource type="NoiseTexture" id=19]
+seamless = true
+noise = SubResource( 14 )
+noise_offset = Vector2( 1, 1 )
+
+[sub_resource type="SpatialMaterial" id=16]
+albedo_color = Color( 0.945098, 0.952941, 0.0705882, 1 )
+metallic = 0.5
+metallic_specular = 0.8
+metallic_texture = SubResource( 19 )
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_transparent = true
+albedo_color = Color( 0.0431373, 0.968627, 0.752941, 0.176471 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 25, 100, 500 )
+far = 8192.0
+
+[node name="Train" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5706, 66.4789, -71.4547 )
+visible = false
+
+[node name="Generic6DOFJoint" type="Generic6DOFJoint" parent="Train"]
+nodes/node_a = NodePath("../Ball")
+nodes/node_b = NodePath("../Ball2")
+
+[node name="Ball" type="RigidBody" parent="Train"]
+transform = Transform( 1, 0, 0, 0, 1, -1.86265e-09, 0, 0, 1, 0, 0, 0 )
+mass = 5331.63
+physics_material_override = SubResource( 8 )
+can_sleep = false
+script = ExtResource( 1 )
+f = 10000.0
+node_path = "../../Track2/Path/PathFollow/CSGBox"
+
+[node name="CollisionShape" type="CollisionShape" parent="Train/Ball"]
+shape = SubResource( 12 )
+
+[node name="CSGMesh" type="CSGMesh" parent="Train/Ball"]
+mesh = SubResource( 17 )
+material = SubResource( 5 )
+
+[node name="Ball2" type="RigidBody" parent="Train"]
+transform = Transform( 1, 0, 0, 0, 1, -1.86265e-09, 0, 0, 1, -30, 0, 0 )
+mass = 5331.63
+physics_material_override = SubResource( 8 )
+can_sleep = false
+script = ExtResource( 1 )
+f = 10000.0
+node_path = "../../Track2/Path/PathFollow/CSGBox2"
+
+[node name="CollisionShape" type="CollisionShape" parent="Train/Ball2"]
+shape = SubResource( 12 )
+
+[node name="CSGMesh" type="CSGMesh" parent="Train/Ball2"]
+mesh = SubResource( 17 )
+material = SubResource( 5 )
+
+[node name="Train2" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.6667, 32.1501, 354.564 )
+visible = false
+
+[node name="Generic6DOFJoint" type="Generic6DOFJoint" parent="Train2"]
+nodes/node_a = NodePath("../Ball")
+nodes/node_b = NodePath("../Ball2")
+
+[node name="Ball" type="RigidBody" parent="Train2"]
+transform = Transform( 1, 0, 0, 0, 1, -1.86265e-09, 0, 0, 1, 0, 0, 0 )
+mass = 5331.63
+physics_material_override = SubResource( 8 )
+can_sleep = false
+script = ExtResource( 1 )
+f = 1000.0
+node_path = "../../Track2/Path/PathFollow/CSGBox"
+
+[node name="CollisionShape" type="CollisionShape" parent="Train2/Ball"]
+shape = SubResource( 12 )
+
+[node name="CSGMesh" type="CSGMesh" parent="Train2/Ball"]
+mesh = SubResource( 17 )
+material = SubResource( 5 )
+
+[node name="Ball2" type="RigidBody" parent="Train2"]
+transform = Transform( 1, 0, 0, 0, 1, -1.86265e-09, 0, 0, 1, -30, 0, 0 )
+mass = 5331.63
+physics_material_override = SubResource( 8 )
+can_sleep = false
+script = ExtResource( 1 )
+f = 10000.0
+node_path = "../../Track2/Path/PathFollow/CSGBox2"
+
+[node name="CollisionShape" type="CollisionShape" parent="Train2/Ball2"]
+shape = SubResource( 12 )
+
+[node name="CSGMesh" type="CSGMesh" parent="Train2/Ball2"]
+mesh = SubResource( 17 )
+material = SubResource( 5 )
+
+[node name="Ground" type="MeshInstance" parent="."]
+transform = Transform( 1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0, 0, 0 )
+mesh = SubResource( 9 )
+material/0 = SubResource( 11 )
+
+[node name="Track2" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 40, 0 )
+
+[node name="Path" type="Path" parent="Track2"]
+curve = SubResource( 13 )
+
+[node name="PathFollow" type="PathFollow" parent="Track2/Path"]
+transform = Transform( -0.571958, -0.0267857, 0.819842, 9.31323e-10, 0.999467, 0.0326541, -0.820283, 0.0186768, -0.571651, -180.759, -0.44622, -17.6326 )
+rotation_mode = 4
+script = ExtResource( 2 )
+node_path = "../../../Train/Ball"
+
+[node name="CSGBox" type="CSGBox" parent="Track2/Path/PathFollow"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
+width = 10.0
+height = 3.0
+depth = 20.0
+material = SubResource( 16 )
+
+[node name="Camera" type="Camera" parent="Track2/Path/PathFollow/CSGBox"]
+transform = Transform( 1, 0, 0, 0, 0.748239, 0.66343, 0, -0.66343, 0.748238, 0, 40, 20 )
+fov = 73.1
+far = 1320.1
+
+[node name="PathFollow2" type="PathFollow" parent="Track2/Path"]
+transform = Transform( -0.571958, -0.0267857, 0.819845, 9.31323e-10, 0.999467, 0.0326542, -0.820283, 0.0186768, -0.571653, -180.759, -0.44622, -17.6326 )
+rotation_mode = 4
+script = ExtResource( 2 )
+node_path = "../../../Train/Ball2"
+
+[node name="CSGBox2" type="CSGBox" parent="Track2/Path/PathFollow2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.999996, 0, 25, 0 )
+width = 10.0
+height = 3.0
+depth = 20.0
+material = SubResource( 16 )
+
+[node name="PathFollow3" type="PathFollow" parent="Track2/Path"]
+transform = Transform( -0.571958, -0.0267857, 0.819842, 9.31323e-10, 0.999467, 0.0326541, -0.820283, 0.0186768, -0.571651, -180.759, -0.44622, -17.6326 )
+rotation_mode = 4
+script = ExtResource( 2 )
+node_path = "../../../Train2/Ball"
+
+[node name="CSGBox" type="CSGBox" parent="Track2/Path/PathFollow3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
+width = 10.0
+height = 3.0
+depth = 20.0
+material = ExtResource( 3 )
+
+[node name="Camera" type="Camera" parent="Track2/Path/PathFollow3/CSGBox"]
+transform = Transform( 1, 0, 0, 0, 0.748239, 0.66343, 0, -0.66343, 0.748238, 0, 40, 20 )
+fov = 73.1
+far = 1320.1
+
+[node name="PathFollow4" type="PathFollow" parent="Track2/Path"]
+transform = Transform( -0.571958, -0.0267857, 0.819845, 9.31323e-10, 0.999467, 0.0326542, -0.820283, 0.0186768, -0.571653, -180.759, -0.44622, -17.6326 )
+rotation_mode = 4
+script = ExtResource( 2 )
+node_path = "../../../Train2/Ball2"
+
+[node name="CSGBox2" type="CSGBox" parent="Track2/Path/PathFollow4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 0.999996, 0, 25, 0 )
+width = 10.0
+height = 3.0
+depth = 20.0
+material = ExtResource( 3 )
+
+[node name="CollisionShape" type="CSGPolygon" parent="Track2/Path"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0 )
+visible = false
+use_collision = true
+invert_faces = true
+polygon = PoolVector2Array( 10, 10, 10, -10, -10, -10, -10, 10, 10, 10, 12, 12, 12, -12, -12, -12, -12, 12, -12, 12, 12, 12 )
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+smooth_faces = true
+material = SubResource( 2 )
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Track2/Path"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0 )
+invert_faces = true
+polygon = PoolVector2Array( -10, -1, -10, 1, 10, 1, -10, 1 )
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+smooth_faces = true

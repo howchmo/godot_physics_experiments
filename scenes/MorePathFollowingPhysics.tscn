@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/MoveThingAlongPath.gd" id="1"]
+
+[sub_resource type="PlaneMesh" id=1]
+
+[sub_resource type="OpenSimplexNoise" id=2]
+
+[sub_resource type="NoiseTexture" id=9]
+noise = SubResource( 2 )
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_color = Color( 0.223529, 0.333333, 0.219608, 1 )
+albedo_texture = SubResource( 9 )
+
+[sub_resource type="Curve3D" id=5]
+_data = {
+"points": PoolVector3Array( -135.935, -5.41263, 94.8941, 135.935, 5.41263, -94.8941, -180.759, -0.44622, -17.6326, -3.53329, 21.795, -194.509, 3.53329, -21.795, 194.509, 269.656, -1.94016, 105.503, 132.126, 6.87555, -2.6535, -132.126, -6.87555, 2.6535, 0.93295, -27.2888, 355.169, -237.055, -3.01476, 165.652, 237.055, 3.01476, -165.652, -180.77, -0.4533, -17.6456 ),
+"tilts": PoolRealArray( 0, 0, 0, 0 )
+}
+
+[sub_resource type="OpenSimplexNoise" id=6]
+
+[sub_resource type="NoiseTexture" id=10]
+seamless = true
+noise = SubResource( 6 )
+noise_offset = Vector2( 1, 1 )
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_color = Color( 0.945098, 0.952941, 0.0705882, 1 )
+metallic = 0.5
+metallic_specular = 0.8
+metallic_texture = SubResource( 10 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 4 )
+
+[node name="Track" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0 )
+
+[node name="Path" type="Path" parent="Track"]
+curve = SubResource( 5 )
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Track/Path"]
+invert_faces = true
+polygon = PoolVector2Array( -10, -1, -10, 1, 10, 1, -10, 1 )
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+smooth_faces = true
+
+[node name="PathFollow" type="PathFollow" parent="Track/Path"]
+transform = Transform( -0.571958, -0.0267857, 0.819845, 9.31323e-10, 0.999467, 0.0326542, -0.820283, 0.0186768, -0.571653, -180.759, -0.44622, -17.6326 )
+rotation_mode = 4
+script = ExtResource( 1 )
+speed = 100.0
+
+[node name="CSGBox" type="CSGBox" parent="Track/Path/PathFollow"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0 )
+width = 10.0
+height = 3.0
+depth = 20.0
+material = SubResource( 8 )
+
+[node name="Camera" type="Camera" parent="Track/Path/PathFollow/CSGBox"]
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 40, 20 )
+fov = 73.1
+far = 1320.1

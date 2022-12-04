@@ -1,0 +1,114 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/EdgeForcesExperiment.gd" id="1"]
+[ext_resource type="Texture" uid="uid://dge66fmwhy46q" path="res://assets/materials/icon.png" id="2"]
+[ext_resource type="Script" path="res://scripts/MoveThingAlongPath.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://dkfsnikwqdt6p" path="res://assets/circletrack.glb" id="4"]
+[ext_resource type="ArrayMesh" path="res://assets/circletrack_Circle001.mesh" id="5"]
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 1, 0.5, 2 )
+
+[sub_resource type="RayShape" id=9]
+margin = 0.001
+slips_on_slope = true
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0.992157, 0.933333, 0.027451, 1 )
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -0.457218, -0.205248, -1.00377, -45.2659, -20.7098, -24.9562, 45.2659, 20.7098, 24.9562, 49.6207, 23.2117, -20.9379, 13.646, 3.82885, -6.22701, -13.646, -3.82885, 6.22701, 51.8613, 0.0944214, 24.2654, 7.61267, 0, 8.94488, -7.61267, 0, -8.94488, 9.3191, 0.696185, 29.704, 0, 0, 0, 0, 0, 0, -0.22282, 0.401077, 0.0445634, 0, 0, 0, 0, 0, 0, -2.32406, -0.0384042, 0.845597 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="PlaneMesh" id=3]
+size = Vector2( 200, 200 )
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_texture = ExtResource( 2 )
+
+[sub_resource type="ConvexPolygonShape" id=10]
+points = PoolVector3Array( 0.162293, 0.0286594, 1.00918, -0.0348199, -0.00318437, -1.02218, -0.0348199, 0.0286594, -1.02218, -1.02218, -0.00318437, 0.03502, 1.00277, -0.00318437, 0.213322, 0.951944, 0.0286594, -0.379017, -1.00277, 0.0286594, -0.213522, -0.423642, -0.00318437, 0.932733, -0.792453, 0.0286594, 0.646169, 0.722613, -0.00318437, -0.729017, -0.722613, -0.00318437, -0.729017, 0.850086, 0.0286594, 0.576329, 0.518496, -0.00318437, 0.881904, -0.575929, 0.0286594, -0.849886, 0.518696, 0.0286594, -0.881704, -0.850086, -0.00318437, 0.576329, -0.359606, 0.0286594, 0.958348, 0.03502, -0.00318437, 1.02218, -1.00277, 0.0286594, 0.213322, 1.00277, -0.00318437, -0.213522, 1.02218, 0.0286594, 0.03502, 0.398027, -0.00318437, -0.94554, -0.397827, -0.00318437, -0.94554, 0.850086, -0.00318437, 0.576329, 0.575929, 0.0286594, 0.850086, -0.932733, -0.00318437, -0.423642, -0.849886, 0.0286594, -0.576129, 0.849886, 0.0286594, -0.576129, 0.213322, 0.0286594, -1.00277, -0.575929, -0.00318437, 0.850086, 0.881704, -0.00318437, -0.519097, 0.94554, 0.0286594, 0.398027, -0.213122, 0.0286594, -1.00277, -0.94554, -0.00318437, 0.398027, -0.213322, 0.0286594, 1.00297, -0.575929, 0.0286594, 0.850086, 0.359606, -0.00318437, 0.958348, 0.728817, -0.00318437, 0.722613, -0.94554, 0.0286594, 0.398027, -0.213322, -0.00318437, 1.00297, -1.00277, -0.00318437, -0.213522, 0.722613, 0.0286594, -0.729017, 0.423242, 0.0286594, 0.932733, 0.213322, -0.00318437, -1.00277, -0.728817, -0.00318437, 0.722613, 0.575929, -0.00318437, -0.849886, -1.02218, 0.0286594, -0.03502, 1.00277, 0.0286594, -0.213522, 1.02218, -0.00318437, -0.03502, -0.575929, -0.00318437, -0.849886, -0.397827, 0.0286594, -0.94554, -0.03502, 0.0286594, 1.02218, 0.94554, -0.00318437, 0.398027, -0.958148, 0.0286594, -0.360006, -0.722613, 0.0286594, -0.729017, 0.728817, 0.0286594, 0.722613, -0.849886, -0.00318437, -0.576129, -1.00277, -0.00318437, 0.213322, 1.00277, 0.0286594, 0.213322, -0.213122, -0.00318437, -1.00277, 0.213322, -0.00318437, 1.00297, 0.398027, 0.0286594, -0.94554, 0.951944, -0.00318437, -0.379017, -0.850086, 0.0286594, 0.576329 )
+
+[sub_resource type="BoxShape" id=11]
+
+[node name="Rail Physics" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.349449, 0.735044, -0.58103, 0.249471, 0.524747, 0.813882, 0.903133, -0.429361, -2.62537e-08, 91.8056, 17.4684, 9.74013 )
+
+[node name="RigidBody" type="RigidBody" parent="."]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 100.5, 3.908, 0 )
+mass = 1379.46
+angular_damp = 100.0
+script = ExtResource( 1 )
+f = 1000.0
+
+[node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
+shape = SubResource( 6 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="RigidBody"]
+pause_mode = 2
+process_priority = 1
+transform = Transform( 1.49012e-08, 0, 1, 0, 1, 0, -1, 0, 1.49012e-08, -2.5, -1, 2 )
+shape = SubResource( 9 )
+
+[node name="CollisionShape3" type="CollisionShape" parent="RigidBody"]
+pause_mode = 2
+process_priority = 1
+transform = Transform( 4.47035e-08, -4.27436e-15, -1, -8.74229e-08, -1, 0, -1, 8.74229e-08, -4.47035e-08, 2.5, -1, 2 )
+shape = SubResource( 9 )
+
+[node name="CollisionShape4" type="CollisionShape" parent="RigidBody"]
+pause_mode = 2
+process_priority = 1
+transform = Transform( -4.47035e-08, 0, 1, 0, 1, 0, -1, 0, -4.47035e-08, -2.5, -1, -2 )
+shape = SubResource( 9 )
+
+[node name="CollisionShape5" type="CollisionShape" parent="RigidBody"]
+pause_mode = 2
+process_priority = 1
+transform = Transform( 4.42378e-08, -4.16334e-15, -1, -8.74229e-08, -1, 0, -1, 8.74229e-08, -4.42378e-08, 2.5, -1, -2 )
+shape = SubResource( 9 )
+
+[node name="CSGBox" type="CSGBox" parent="RigidBody"]
+transform = Transform( 1, 0, -5.07571e-08, 0, 1, 0, 5.07571e-08, 0, 1, 0, 0, 0 )
+width = 3.0
+height = 0.25
+depth = 4.0
+material = SubResource( 5 )
+
+[node name="Path" type="Path" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 121.373, -27.8223, 21.6785 )
+curve = SubResource( 1 )
+
+[node name="PathFollow" type="PathFollow" parent="Path"]
+transform = Transform( 0.915447, 0, -0.402439, 0, 1, 0, 0.402439, 0, 0.915447, -0.457218, -0.205248, -1.00377 )
+script = ExtResource( 3 )
+speed = 10.0
+
+[node name="Position3D" type="Position3D" parent="Path/PathFollow"]
+transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0 )
+
+[node name="CSGMesh" type="CSGMesh" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+mesh = SubResource( 3 )
+material = SubResource( 4 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
+mesh = ExtResource( 5 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 10 )
+
+[node name="circletrack" parent="." instance=ExtResource( 4 )]
+
+[node name="StaticBody2" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 40, 100.5, 0, 30.3378 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody2"]
+shape = SubResource( 11 )
